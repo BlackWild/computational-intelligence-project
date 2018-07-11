@@ -2,15 +2,63 @@
 %% Loading Data
 load('./Data/SubHandData');
 
-
 %% Extracting Features
 features = featureExtracter(TrainX);
+mu = mean(features, 2);
+sigma = std(features, 0, 2);
 
-% Normalization
+features = normalizer(features, mu, sigma);
+
+%% Choosing Features
 
 
 
-%%
+
+
+
+
+%% Estimating Error
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
