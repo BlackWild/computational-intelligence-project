@@ -1,6 +1,6 @@
 
 %% Loading Data
-load('./Data/SubHandData');
+load ./Data/SubHandData ;
 
 %% Extracting Features
 [features, NUM_OF_FEATURES] = featureExtracter(TrainX);
@@ -8,6 +8,9 @@ mu = mean(features, 2);
 sigma = std(features, 0, 2);
 
 features = normalizer(features, mu, sigma);
+
+features_test = featureExtracter(TestX);
+features_test = normalizer(features_test, mu, sigma);
 
 %% Choosing Best Features
 
@@ -18,13 +21,14 @@ J = jComputer(features, Trainy);
 % bFeatures = features(sortedJindex(1:3), :);
 bFeatures = features( J > .01 , :);
 
+bFeatures_test = features_test( J > .01 , :);
+
 
 %% Estimating Error
 
 %%
 
 bestMLPN1 = -1;
-bestMLPNet1 = -1;
 bestMLPMeanError1 = 100;
 for n = 20:30
 
@@ -48,7 +52,6 @@ for n = 20:30
 
   if meanError < bestMLPMeanError1
     bestMLPN1 = n;
-    bestMLPNet1 = net;
     bestMLPMeanError1 = meanError;
   end
   
@@ -56,13 +59,10 @@ end
 clear n k net estVals error meanError;
 clear validations validationLabels trains trainLabels;
 
-
-
 %%
 
 bestRBFN1 = -1;
 bestRBFR1 = -1;
-bestRBFNet1 = -1;
 bestRBFMeanError1 = 100;
 for n = 20:2:30
 for r = [.2 .4 .7]
@@ -87,7 +87,6 @@ for r = [.2 .4 .7]
   if meanError < bestRBFMeanError1
     bestRBFN1 = n;
     bestRBFR1 = r;
-    bestRBFNet1 = net;
     bestRBFMeanError1 = meanError;
   end
   
@@ -97,87 +96,18 @@ clear n k r net estVals error meanError;
 clear validations validationLabels trains trainLabels;
 
 
+%% Best nets
 
+bestMPLnet1 = patternnet(bestMLPN1);
+bestMPLnet1 = train(bestMPLnet1, bFeatures, Trainy);
 
+bestRBFnet1 = newrb(bFeatures, Trainy, 0, bestRBFR1, bestRBFN1, bestRBFN1);
 
+estimatedLabels_MLP1 = ( bestMPLnet1(bFeatures_test) >= 0.5 );
+estimatedLabels_RBF1 = ( bestRBFnet1(bFeatures_test) >= 0.5 );
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+save ./Output/FirstPhaseEstimations ...
+  estimatedLabels_MLP1 estimatedLabels_RBF1 ;
 
 
 
