@@ -12,14 +12,20 @@ features = normalizer(features, mu, sigma);
 features_test = featureExtracter(TestX);
 features_test = normalizer(features_test, mu, sigma);
 
-%% Choosing Best Features
+save ./Output/forFitnessFunction features Trainy;
 
+%% Choosing Best Features (GA)
 
+options = gaoptimset(                          ...
+  'PopulationType', 'bitstring',               ...
+  'PlotFcn', {@gaplotbestf, @gaplotbestindiv}, ...
+  'Generations', 150                           ...
+);
 
+bestIndexes = ga(@fitness,NUM_OF_FEATURES,[],[],[],[],[],[],[],[],options);
 
-
-bFeatures = 0;
-bFeatures_test = 0;
+bFeatures = features(bestIndexes == 1, :);
+bFeatures_test = features_test(bestIndexes == 1, :);
 
 %% Estimating Error
 
