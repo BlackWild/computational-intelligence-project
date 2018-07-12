@@ -14,15 +14,12 @@ features_test = normalizer(features_test, mu, sigma);
 
 %% Choosing Best Features
 
-J = jComputer(features, Trainy);
 
-[sortedJ, sortedJindex] = sort(J, 'descend');
 
-% bFeatures = features(sortedJindex(1:3), :);
-bFeatures = features( J > .01 , :);
 
-bFeatures_test = features_test( J > .01 , :);
 
+bFeatures = 0;
+bFeatures_test = 0;
 
 %% Estimating Error
 
@@ -106,7 +103,7 @@ bestRBFnet1 = newrb(bFeatures, Trainy, 0, bestRBFR1, bestRBFN1, bestRBFN1);
 estimatedLabels_MLP1 = ( bestMPLnet1(bFeatures_test) >= 0.5 );
 estimatedLabels_RBF1 = ( bestRBFnet1(bFeatures_test) >= 0.5 );
 
-save ./Output/FirstPhaseEstimations ...
+save ./Output/SecondPhaseEstimations ...
   estimatedLabels_MLP1 estimatedLabels_RBF1 ;
 
 
