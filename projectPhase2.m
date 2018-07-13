@@ -18,7 +18,8 @@ save ./Output/forFitnessFunction features Trainy;
 
 options = gaoptimset(                          ...
   'PopulationType', 'bitstring',               ...
-  'PlotFcn', {@gaplotbestf, @gaplotbestindiv}  ...
+  'PlotFcn', {@gaplotbestf, @gaplotbestindiv}, ...
+  'Generations', 1000                          ...
 );
 
 bestIndexes = ga(@fitness,NUM_OF_FEATURES,[],[],[],[],[],[],[],[],options);
@@ -32,7 +33,7 @@ bFeatures_test = features_test(bestIndexes == 1, :);
 
 bestMLPN1 = -1;
 bestMLPMeanError1 = 100;
-for n = 20:30
+for n = 25:40
 
   meanError = 0;
   for k = 1:5
