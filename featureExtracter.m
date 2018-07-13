@@ -40,14 +40,14 @@ function [features, NUM_OF_FEATURES] = featureExtracter( data )
       
       a = data(j, :, i);
       
-      features(c,   i) = meanfreq(a, 256);
-      features(c-1, i) = medfreq(a, 256);
+      features(c,   i) = meanfreq(a, 256);            % Mean Frequency
+      features(c-1, i) = medfreq(a, 256);             % Med Frequency
       
-      features(c-2, i) = bandpower(a, 256, [2, 8]);
-      features(c-3, i) = bandpower(a, 256, [8, 15]);
-      features(c-4, i) = bandpower(a, 256, [15, 22]);
-      features(c-5, i) = bandpower(a, 256, [22, 29]);
-      features(c-6, i) = bandpower(a, 256, [29, 36]);
+      features(c-2, i) = bandpower(a, 256, [2, 8]);   % Teta & Delta
+      features(c-3, i) = bandpower(a, 256, [9, 15]);  % Alpha
+      features(c-4, i) = bandpower(a, 256, [16, 22]); % Beta 1
+      features(c-5, i) = bandpower(a, 256, [23, 29]); % Beta 2
+      features(c-6, i) = bandpower(a, 256, [30, 36]); % Gamma 1
       
     end
 
