@@ -1,8 +1,17 @@
 
 %% Loading Data
-load ./Data/SubHandData ;
+load ./Data/SubHandData;
+
+%% Filtering
+TrainX = myFilter(TrainX);
+TestX = myFilter(TestX);
+
+save ./Output/FilteredData TrainX TestX;
 
 %% Extracting Features
+
+load ./Output/FilteredData;
+
 [features, NUM_OF_FEATURES] = featureExtracter(TrainX);
 mu = mean(features, 2);
 sigma = std(features, 0, 2);
@@ -19,9 +28,9 @@ J = jComputer(features, Trainy);
 [sortedJ, sortedJindex] = sort(J, 'descend');
 
 % bFeatures = features(sortedJindex(1:3), :);
-bFeatures = features( J > .01 , :);
+bFeatures = features( J > .1 , :);
 
-bFeatures_test = features_test( J > .01 , :);
+bFeatures_test = features_test( J > .1 , :);
 
 
 %% Estimating Error
@@ -30,7 +39,7 @@ bFeatures_test = features_test( J > .01 , :);
 
 bestMLPN1 = -1;
 bestMLPMeanError1 = 100;
-for n = 20:30
+for n = 25:40
 
   meanError = 0;
   for k = 1:5
@@ -65,8 +74,8 @@ bestRBFN1 = -1;
 bestRBFR1 = -1;
 bestRBFMeanError1 = 100;
 for n = 20:2:30
-for r = [.2 .4 .7]
-
+for r = [1 1.1 1.2 1.3 1.4 1.5]
+  
   meanError = 0;
   for k = 1:5
     validations = bFeatures(:, 1+(k-1)*36:k*36);
