@@ -10,6 +10,7 @@ save ./Output/FilteredData TrainX TestX;
 
 %% Extracting Features
 
+load ./Data/SubHandData Trainy;
 load ./Output/FilteredData;
 
 [features, NUM_OF_FEATURES] = featureExtracter(TrainX);
@@ -27,9 +28,10 @@ J = jComputer(features, Trainy);
 
 [sortedJ, sortedJindex] = sort(J, 'descend');
 
-% bFeatures = features(sortedJindex(1:3), :);
+% bFeatures = features(sortedJindex(1:15), :);
 bFeatures = features( J > .1 , :);
 
+% bFeatures_test = features_test( sortedJindex(1:15) , :);
 bFeatures_test = features_test( J > .1 , :);
 
 
@@ -39,7 +41,7 @@ bFeatures_test = features_test( J > .1 , :);
 
 bestMLPN1 = -1;
 bestMLPMeanError1 = 100;
-for n = 25:40
+for n = 5:20
 
   meanError = 0;
   for k = 1:5
@@ -73,8 +75,8 @@ clear validations validationLabels trains trainLabels;
 bestRBFN1 = -1;
 bestRBFR1 = -1;
 bestRBFMeanError1 = 100;
-for n = 20:2:30
-for r = [1 1.1 1.2 1.3 1.4 1.5]
+for n = 16:2:22
+for r = [3 3.2 3.4 3.6 3.8]
   
   meanError = 0;
   for k = 1:5

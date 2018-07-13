@@ -4,6 +4,7 @@ load ./Data/SubHandData ;
 
 %% Extracting Features
 
+load ./Data/SubHandData Trainy;
 load ./Output/FilteredData;
 
 [features, NUM_OF_FEATURES] = featureExtracter(TrainX);
@@ -30,13 +31,16 @@ bestIndexes = ga(@fitness,NUM_OF_FEATURES,[],[],[],[],[],[],[],[],options);
 bFeatures = features(bestIndexes == 1, :);
 bFeatures_test = features_test(bestIndexes == 1, :);
 
+save ./Output/bestIndexes bestIndexes;
+clear options;
+
 %% Estimating Error
 
 %%
 
 bestMLPN2 = -1;
 bestMLPMeanError2 = 100;
-for n = 25:40
+for n = 1:20
 
   meanError = 0;
   for k = 1:5
@@ -70,8 +74,8 @@ clear validations validationLabels trains trainLabels;
 bestRBFN2 = -1;
 bestRBFR2 = -1;
 bestRBFMeanError2 = 100;
-for n = 20:2:30
-for r = [1 1.1 1.2 1.3 1.4 1.5]
+for n = 16:2:22
+for r = [3 3.2 3.4 3.6 3.8]
 
   meanError = 0;
   for k = 1:5
