@@ -1,6 +1,6 @@
 # What's This?
 
-This is a university course final project for the course of *Computational Intelligence* on subject of EEG classification and genetic algorithm.
+This is a university course final project for the course of *Computational Intelligence* on the subject of EEG classification and genetic algorithms.
 
 # What's included?
 
